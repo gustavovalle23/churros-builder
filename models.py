@@ -1,8 +1,16 @@
-import decimal
-
+from datetime import datetime
 
 
 class User:
-    first_name: str
-    last_name: str
-    price: float
+    id: int
+    name: str
+    email: str
+    password: str
+    active: bool
+    created_at: datetime
+
+
+class Order:
+    id: int
+    name_of_product: str
+    avaiable_qtd: int
