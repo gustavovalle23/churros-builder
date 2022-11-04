@@ -18,3 +18,13 @@ pip3 install -r requirements.txt
 # To exit the virtual env you could execute the following command
 deactivate
 ```
+
+Currently supported technologies are:
+## Database:
+- PostgreSQL
+
+## Back-end Framework: MySQL
+- FastAPI
+
+## APIs Layers:
+- Rest

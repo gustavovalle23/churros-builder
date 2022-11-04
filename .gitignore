@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Code Generator - development
+**user**
+entities/
+
+
 # C extensions
 *.so
 
