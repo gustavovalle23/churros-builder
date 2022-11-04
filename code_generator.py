@@ -51,7 +51,7 @@ def generate_model(class_model: type) -> None:
     with open(filename, 'w+') as f:
         f.write('# -*- coding: utf-8 -*-\n')
         for _, type_of_field in attributes.items():
-            if type_of_field.__module__ == "builtins":
+            if type_of_field.__module__ == "builtins" or type_of_field.__name__ == 'datetime':
                 continue
             f.write(
                 f'from {type_of_field.__module__} import {type_of_field.__name__}')
@@ -82,6 +82,9 @@ def convert_to_sqlalchemy_type(type: type) -> str:
             return 'Integer()'
         case 'float':
             return 'Float()'
+        case 'datetime':
+            return 'DateTime()'
+
 
 
 generate_model(User)

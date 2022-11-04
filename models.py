@@ -7,7 +7,6 @@ class user:
     email: str
     password: str
     active: bool
-    created_at: datetime
     height: float
 
 

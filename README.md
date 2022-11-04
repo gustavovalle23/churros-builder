@@ -29,17 +29,19 @@ With types supported:
 - [x] datetime
 - [ ] decimal
 - [ ] Other entity
+- [ ] default value
 
 
 ## SqlAlchemy Model Generator
 With types supported:
-- [ ] str
-- [ ] int
-- [ ] bool
-- [ ] float
-- [ ] datetime
+- [x] str
+- [x] int
+- [x] bool
+- [x] float
+- [x] datetime
 - [ ] decimal
 - [ ] Other entity
+- [ ] default value
 
 To test it, run:
 ```bash
