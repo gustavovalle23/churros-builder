@@ -1,13 +1,14 @@
 from datetime import datetime
 
 
-class User:
+class user:
     id: int
     name: str
     email: str
     password: str
     active: bool
     created_at: datetime
+    height: float
 
 
 class Order:
