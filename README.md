@@ -57,7 +57,7 @@ Crud Available:
 - [ ] update
 - [ ] inactivate
 - [ ] delete
-- [ ] convert model to entity
+- [x] convert model to entity
 
 
 To test it, run:
