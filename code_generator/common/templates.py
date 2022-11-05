@@ -19,7 +19,7 @@ def get_db():
     try:
         yield db
     finally:
-        db.close()\n\n
+        db.close()
 """
 
 timestamp_model = """

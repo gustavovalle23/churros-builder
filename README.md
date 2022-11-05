@@ -31,6 +31,9 @@ With types supported:
 - [ ] Other entity
 - [ ] default value
 
+Some other features:
+- [ ] default value
+- [x] multiple entities
 
 ## SqlAlchemy Model Generator
 With types supported:
@@ -41,7 +44,10 @@ With types supported:
 - [x] datetime
 - [ ] decimal
 - [ ] Other entity
+
+Some other features:
 - [ ] default value
+- [x] multiple models
 
 To test it, run:
 ```bash
