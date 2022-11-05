@@ -1,2 +1,1 @@
-from code_generator.application.dtos import generate_dtos
 from code_generator.application.routers import generate_routers

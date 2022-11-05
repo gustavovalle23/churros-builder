@@ -1,11 +1,13 @@
 import os
-import inspect
-from typing import Dict
-
-from code_generator.common.templates import *
 
 
 def generate_routers(class_model: type) -> None:
+    from code_generator.application.errors import generate_errors
+    from code_generator.application.dtos import generate_dtos
+
+    generate_errors(class_model)
+    generate_dtos(class_model)
+
     model_name_min = class_model.__name__.lower()
     model_name = f'{class_model.__name__.capitalize()}'
 
@@ -15,13 +17,13 @@ def generate_routers(class_model: type) -> None:
 
     with open(filename, 'w+') as f:
         f.write(f"""# -*- coding: utf-8 -*-
-from datetime import timedelta
 from typing import Tuple, Optional
 from sqlalchemy.orm import Session
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, status
 
 from src.domain.entities.{model_name_min} import {model_name}
 from src.application.dtos.{model_name_min} import Create{model_name}Input, Update{model_name}Input
+from src.application.errors.{model_name_min} import {model_name}NotFound
 from src.infra.models import get_db
 from src.infra.repositories import {model_name_min} as {model_name_min}_repository
 
@@ -57,7 +59,7 @@ async def update_{model_name_min}(input: Update{model_name}Input, db: Session = 
     return {'{'}"message": "updated", {model_name_min}: updated_{model_name_min}{'}'}
 
 
-@router.delete("/{model_name_min}s{'{'}{model_name_min}_id{'}'}", tags=["{model_name_min}s"])
+@router.delete("/{model_name_min}s/{'{'}{model_name_min}_id{'}'}", tags=["{model_name_min}s"])
 async def delete_{model_name_min}(
     {model_name_min}_id: str,
     db: Session = Depends(get_db)

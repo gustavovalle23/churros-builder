@@ -20,6 +20,10 @@ deactivate
 ```
 
 # Currently features available:
+- [x] application (dtos, errors and routers)
+- [x] domain (entities)
+- [x] infra (models, database config and repositories)
+
 ## Entity generator
 With types supported:
 - [x] str
@@ -53,8 +57,8 @@ Crud Available:
 - [x] Find all (with pagination)
 - [x] find by id (unique)
 - [ ] find by field (each field)
-- [ ] create
-- [ ] update
+- [x] create
+- [x] update
 - [ ] inactivate
 - [x] delete
 - [x] convert model to entity
@@ -71,11 +75,19 @@ Currently supported technologies are:
 - [x] Sqlite3
 - [ ] PostgreSQL
 - [ ] MySQL
+- [ ] MongoDB
 
 ## Back-end Framework: MySQL
-- [ ] FastAPI
+- [x] FastAPI
 - [ ] Flask
+- [ ] Django
 
 ## APIs Layers:
-- [ ] Rest
+- [x] Rest
 - [ ] GraphQL
+
+
+To run generated application:
+```bash
+uvicorn src.main:app --reload
+```
