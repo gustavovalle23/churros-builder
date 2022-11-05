@@ -36,3 +36,11 @@ timestamp_model = """
 imports_entity = """# -*- coding: utf-8 -*-
 from uuid import UUID as uuid
 from dataclasses import dataclass\n"""
+
+
+
+imports_repository = """
+# -*- coding: utf-8 -*-
+from uuid import uuid1 as uuid
+from sqlalchemy.orm import Session, Query
+"""

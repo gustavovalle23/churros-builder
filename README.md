@@ -49,6 +49,17 @@ Some other features:
 - [ ] default value
 - [x] multiple models
 
+Crud Available:
+- [ ] Find all (with pagination)
+- [ ] find by id (unique)
+- [ ] find by field (each field)
+- [ ] create
+- [ ] update
+- [ ] inactivate
+- [ ] delete
+- [ ] convert model to entity
+
+
 To test it, run:
 ```bash
 python code_generator.py
@@ -57,10 +68,14 @@ python code_generator.py
 
 Currently supported technologies are:
 ## Database:
-- PostgreSQL
+- [x] Sqlite3
+- [ ] PostgreSQL
+- [ ] MySQL
 
 ## Back-end Framework: MySQL
-- FastAPI
+- [ ] FastAPI
+- [ ] Flask
 
 ## APIs Layers:
-- Rest
+- [ ] Rest
+- [ ] GraphQL
