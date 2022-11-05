@@ -21,6 +21,7 @@ from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, status, HTTPException
 
 from src.domain.entities.{model_name_min} import {model_name}
+from src.application.dtos.{model_name_min} import Create{model_name}Input, Update{model_name}Input
 from src.infra.models import get_db
 from src.infra.repositories import {model_name_min} as {model_name_min}_repository
 
