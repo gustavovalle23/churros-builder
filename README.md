@@ -62,7 +62,7 @@ Crud Available:
 
 To test it, run:
 ```bash
-python code_generator.py
+python main.py
 ```
 
 
