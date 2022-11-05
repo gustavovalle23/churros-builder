@@ -50,13 +50,13 @@ Some other features:
 - [x] multiple models
 
 Crud Available:
-- [ ] Find all (with pagination)
-- [ ] find by id (unique)
+- [x] Find all (with pagination)
+- [x] find by id (unique)
 - [ ] find by field (each field)
 - [ ] create
 - [ ] update
 - [ ] inactivate
-- [ ] delete
+- [x] delete
 - [x] convert model to entity
 
 
