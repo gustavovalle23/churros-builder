@@ -43,4 +43,5 @@ imports_repository = """
 # -*- coding: utf-8 -*-
 from uuid import uuid1 as uuid
 from sqlalchemy.orm import Session, Query
+from typing import List
 """

@@ -22,32 +22,33 @@ from src.infra.models import {model_name}Model
 """)
 
 
-        f.write(f"""
+        f.write(f"""\n
 def to_entity(model: Query | {model_name}Model) -> {model_name} | None:
     if not model:
         return
 
     return {model_name}(\n""")
 
-        for field, type_of_field in attributes.items():
+        for field, _ in attributes.items():
             f.write(f"""        model.{field},\n""")
-        f.write("""    )""")
-            
-#             if type_of_field.__module__ == "builtins":
-#                 continue
-#             f.write(
-#                 f'from {type_of_field.__module__} import {type_of_field.__name__}\n')
+        f.write(f"""    )\n\n
+def find_all(db: Session, skip: int = 0, limit: int = 100) -> List[{model_name}]:
+    {class_model.__name__.lower()}s = (
+        db.query({model_name}Model).offset(skip).limit(limit)
+    )
+    return tuple(map(to_entity, {class_model.__name__.lower()}s))
 
-#         f.write(f"""\n\n@dataclass(frozen=True)
-# class {class_model.__name__.capitalize()}:
-#     id: uuid""")
 
-#         for field, type_of_field in attributes.items():
-#             if field == "id":
-#                 continue
+def find_by_id(db: Session, {class_model.__name__.lower()}_id: str) -> {model_name} | None:
+    {class_model.__name__.lower()} = (
+        db.query({model_name}Model)
+        .filter({model_name}Model.id == {class_model.__name__.lower()}_id)
+        .first()
+    )
+    return to_entity({class_model.__name__.lower()})
 
-#             f.write(
-#                 f"""
-#     {field}: {type_of_field.__name__}""")
-#         f.write("\n")
 
+def delete(db: Session, {class_model.__name__.lower()}_id: str) -> None:
+    db.query({model_name}Model).filter({model_name}Model.id == {class_model.__name__.lower()}_id).delete()
+    db.commit()
+""")
