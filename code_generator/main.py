@@ -1,6 +1,5 @@
 import os
-import inspect
-from typing import Dict, List
+from typing import List
 
 
 def generate_main(class_models: List[type]) -> None:
