@@ -41,7 +41,7 @@ def generate_model(class_model: type, multiple_model) -> None:
         if not multiple_model:
             f.write(template_model)
 
-        f.write(f"""\n\nclass {class_model.__name__.capitalize()}Model:
+        f.write(f"""\n\nclass {class_model.__name__.capitalize()}Model(Base):
     __tablename__ = "{class_model.__name__.lower()}s"
 
     id: str = Column(String(255), primary_key=True, index=True)""")

@@ -13,7 +13,9 @@ def generate_routers(class_model: type) -> None:
 
     filename = f'src/application/routers/{model_name_min}.py'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
-    open('src/application/routers/__init__.py', 'a').close()
+
+    with open('src/application/routers/__init__.py', 'a') as f:
+        f.write(f'from src.application.routers.{model_name_min} import router as router_{model_name_min}s\n')
 
     with open(filename, 'w+') as f:
         f.write(f"""# -*- coding: utf-8 -*-

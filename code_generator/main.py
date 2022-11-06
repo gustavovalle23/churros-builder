@@ -14,8 +14,9 @@ from fastapi import FastAPI
 
 from src.infra.models import Base, engine
 """)
-        for model in class_models:
-            f.write(f"from src.application.routers.{model.__name__.lower()} import router as router_{model.__name__.lower()}s\n")
+        models_plural = list(map(lambda model: f'{model.__name__.lower()}s', class_models))
+        models_plural_routers = list(map(lambda model: f'router_{model.__name__.lower()}s', class_models))
+        f.write(f'from src.application.routers import {", ".join(models_plural_routers)}\n')
 
         f.write("""
 Base.metadata.create_all(bind=engine)
@@ -23,5 +24,5 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI()
 """)
 
-        for model in class_models:
-            f.write(f"app.include_router(router_{model.__name__.lower()}s)\n")
+        for model in models_plural:
+            f.write(f"app.include_router(router_{model})\n")
