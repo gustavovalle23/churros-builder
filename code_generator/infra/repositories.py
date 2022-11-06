@@ -67,7 +67,7 @@ def save(db: Session, input: Create{model_name}Input) -> {model_name} | None:
 def update(db: Session, input: Update{model_name}Input) -> {model_name} | None:
     {model_name_min}_id = input.id
     data: dict = json.loads(input.json())
-    data.pop('id', None)
+    data = {'{'}attribute: value for attribute, value in data.items() if value != None and attribute != 'id'{'}'}
 
     db.query({model_name}Model).filter({model_name}Model.id == {model_name_min}_id).update(
         data

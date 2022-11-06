@@ -62,7 +62,7 @@ Crud Available:
 - [ ] inactivate
 - [x] delete
 - [x] convert model to entity
-
+- [ ] automated tests
 
 To test it, run:
 ```bash
