@@ -6,9 +6,9 @@ class User:
     name: str
     email: str
     password: str
-    active: bool
+    active: bool = False
     birth_date: datetime
-    height: float
+    height: float = 1.2
 
 
 class Order:
