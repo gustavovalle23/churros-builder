@@ -2,13 +2,15 @@ import os
 import inspect
 from typing import Dict
 
-from code_generator.common.templates import *
+from code_generator.common.templates import (
+    imports_entity
+)
 
 
 def generate_entity(class_model: type) -> None:
-    filename = f'src/domain/entities/{class_model.__name__.lower()}.py'
+    filename = f'src/{class_model.__name__.lower()}/domain/entities.py'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
-    open('src/domain/entities/__init__.py', 'a').close()
+    open(f'src/{class_model.__name__.lower()}/domain/__init__.py', 'a').close()
 
     members = inspect.getmembers(class_model())
     attributes: Dict[str, type] = members[0][1]
@@ -21,10 +23,13 @@ def generate_entity(class_model: type) -> None:
             if type_of_field.__module__ == "builtins":
                 continue
             f.write(
-                f'from {type_of_field.__module__} import {type_of_field.__name__}\n')
+f"""from {type_of_field.__module__} import {type_of_field.__name__}
+
+from src.__seedwork.domain.entities import Entity
+""")
 
         f.write(f"""\n\n@dataclass(kw_only=True, frozen=True, slots=True)
-class {class_model.__name__.capitalize()}:
+class {class_model.__name__.capitalize()}(Entity):
     id: uuid""")
 
         default_attributes = {
@@ -59,5 +64,5 @@ class {class_model.__name__.capitalize()}:
 """)
 
 
-def generate_entities(list_of_models: list):
-    set(map(generate_entity, list_of_models))
+def generate_entities(list_of_models: list) -> set:
+    return set(map(generate_entity, list_of_models))

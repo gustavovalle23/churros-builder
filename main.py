@@ -7,9 +7,9 @@ from code_generator.main import generate_main
 
 
 generate_entities([User, Order])
-# generate_models([User, Order])
-# generate_repository(User)
-# generate_repository(Order)
-# generate_routers(User)
-# generate_routers(Order)
-# generate_main([User, Order])
+generate_models([User, Order])
+generate_repository(User)
+generate_repository(Order)
+generate_routers(User)
+generate_routers(Order)
+generate_main([User, Order])

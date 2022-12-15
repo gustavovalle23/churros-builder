@@ -11,11 +11,11 @@ def generate_routers(class_model: type) -> None:
     model_name_min = class_model.__name__.lower()
     model_name = f'{class_model.__name__.capitalize()}'
 
-    filename = f'src/application/routers/{model_name_min}.py'
+    filename = f'src/infra/api/routers/{model_name_min}.py'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
-    with open('src/application/routers/__init__.py', 'a') as f:
-        f.write(f'from src.application.routers.{model_name_min} import router as router_{model_name_min}s\n')
+    with open('src/infra/api/routers/__init__.py', 'a') as f:
+        f.write(f'from src.infra.api.routers.{model_name_min} import router as router_{model_name_min}s\n')
 
     with open(filename, 'w+') as f:
         f.write(f"""# -*- coding: utf-8 -*-

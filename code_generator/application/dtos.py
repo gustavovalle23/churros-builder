@@ -2,13 +2,11 @@ import os
 import inspect
 from typing import Dict
 
-from code_generator.common.templates import *
-
 
 def generate_dtos(class_model: type) -> None:
-    filename = f'src/application/dtos/{class_model.__name__.lower()}.py'
+    filename = f'src/{class_model.__name__.lower()}/application/dtos.py'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
-    open('src/application/dtos/__init__.py', 'a').close()
+    open(f'src/{class_model.__name__.lower()}/application/__init__.py', 'a').close()
 
     attributes: Dict[str, type] = inspect.getmembers(class_model())[0][1]
     with open(filename, 'w+') as f:
