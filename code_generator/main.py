@@ -15,7 +15,7 @@ from src.infra.models import Base, engine
 """)
         models_plural = list(map(lambda model: f'{model.__name__.lower()}s', class_models))
         models_plural_routers = list(map(lambda model: f'router_{model.__name__.lower()}s', class_models))
-        f.write(f'from src.application.routers import {", ".join(models_plural_routers)}\n')
+        f.write(f'from src.infra.api.routers import {", ".join(models_plural_routers)}\n')
 
         f.write("""
 Base.metadata.create_all(bind=engine)

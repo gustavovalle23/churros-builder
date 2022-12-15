@@ -2,7 +2,9 @@ import os
 import inspect
 from typing import Dict
 
-from code_generator.common.templates import *
+from code_generator.common.templates import (
+    imports_repository
+)
 
 
 def generate_repository(class_model: type) -> None:
@@ -18,8 +20,8 @@ def generate_repository(class_model: type) -> None:
         f.write(imports_repository)
 
         f.write(f"""
-from src.application.dtos.{model_name_min} import Create{model_name}Input, Update{model_name}Input
-from src.domain.entities.{model_name_min} import {model_name}
+from src.{model_name_min}.application.dtos import Create{model_name}Input, Update{model_name}Input
+from src.{model_name_min}.domain.entities import {model_name}
 from src.infra.models import {model_name}Model
 """)
 
