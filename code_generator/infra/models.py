@@ -2,7 +2,9 @@ import os
 import inspect
 from typing import Dict
 
-from code_generator.common.templates import *
+from code_generator.common.templates import (
+    timestamp_model, template_model
+)
 
 
 def convert_to_sqlalchemy_type(type: type) -> str:

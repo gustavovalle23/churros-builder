@@ -1,1 +1,1 @@
-from code_generator.application.routers import generate_routers
+from code_generator.infra.routers import generate_routers

@@ -11,11 +11,11 @@ def generate_routers(class_model: type) -> None:
     model_name_min = class_model.__name__.lower()
     model_name = f'{class_model.__name__.capitalize()}'
 
-    filename = f'src/application/routers/{model_name_min}.py'
+    filename = f'src/infra/api/routers/{model_name_min}.py'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
-    with open('src/application/routers/__init__.py', 'a') as f:
-        f.write(f'from src.application.routers.{model_name_min} import router as router_{model_name_min}s\n')
+    with open('src/infra/api/routers/__init__.py', 'a') as f:
+        f.write(f'from src.infra.api.routers.{model_name_min} import router as router_{model_name_min}s\n')
 
     with open(filename, 'w+') as f:
         f.write(f"""# -*- coding: utf-8 -*-
@@ -23,10 +23,10 @@ from typing import Tuple, Optional
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, status
 
-from src.domain.entities.{model_name_min} import {model_name}
-from src.application.dtos.{model_name_min} import Create{model_name}Input, Update{model_name}Input
-from src.application.errors.{model_name_min} import {model_name}NotFound
 from src.infra.models import get_db
+from src.{model_name_min}.domain.entities import {model_name}
+from src.{model_name_min}.application.dtos import Create{model_name}Input, Update{model_name}Input
+from src.{model_name_min}.application.errors import {model_name}NotFound
 from src.infra.repositories import {model_name_min} as {model_name_min}_repository
 
 router = APIRouter()
