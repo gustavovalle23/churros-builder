@@ -8,7 +8,7 @@ from code_generator.seedwork.domain import generate_domain_seedwork
 from code_generator.seedwork.application import generate_use_cases
 
 
-generate_entities([User, Order])
+generate_entities([Order, User])
 generate_models([User, Order])
 generate_repository(User)
 generate_repository(Order)
