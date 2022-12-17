@@ -23,11 +23,9 @@ def generate_entity(class_model: type) -> None:
             if type_of_field.__module__ == "builtins":
                 continue
             f.write(
-f"""from {type_of_field.__module__} import {type_of_field.__name__}
+f"""from {type_of_field.__module__} import {type_of_field.__name__}\n""")
 
-from src.__seedwork.domain.entities import Entity
-""")
-
+        f.write('\nfrom src.__seedwork.domain.entities import Entity\n')
         f.write(f"""\n\n@dataclass(kw_only=True, frozen=True, slots=True)
 class {class_model.__name__.capitalize()}(Entity):
     id: uuid""")

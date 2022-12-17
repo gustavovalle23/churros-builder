@@ -38,6 +38,7 @@ With types supported:
 Some other features:
 - [ ] default value
 - [x] multiple entities
+- [x] Seedworks
 
 ## SqlAlchemy Model Generator
 With types supported:
