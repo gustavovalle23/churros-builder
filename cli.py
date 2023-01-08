@@ -8,9 +8,10 @@ def transform_type(type: str) -> type:
     return types.get(type)
 
 
+attributes: Dict[str, Any] = {}
+
 # Entity Name
 entity_name = questionary.text("What's the entity name?").ask()
-attributes: Dict[str, Any] = {}
 
 # Attributes
 next_attribute = True
@@ -20,8 +21,13 @@ while next_attribute:
         "What's the attribute type?",
         choices=["Boolean", "String", "Float", "Integer"],
     ).ask()
+    default_value = questionary.text("What's the default value?").ask()
 
-    attributes[attribute_name] = transform_type(attribute_type)
+    attributes[attribute_name] = {
+        "type": transform_type(attribute_type),
+        "default_value": default_value,
+    }
+
     next_attribute = questionary.confirm(
         "There are next attribute?", default=False
     ).ask()
@@ -29,5 +35,13 @@ while next_attribute:
 
 Entity = type(entity_name, (), {})
 
-for attribute, type in attributes.items():
-    Entity.__annotations__[attribute] = type
+Entity.__churrosoptions__ = {}
+Entity.__churrosoptions__["attributes"] = {}
+
+
+for attribute, options in attributes.items():
+    Entity.__churrosoptions__["attributes"]["name"] = attribute
+    Entity.__churrosoptions__["attributes"]["type"] = options.get("type")
+    Entity.__churrosoptions__["attributes"]["default_value"] = options.get(
+        "default_value"
+    )
