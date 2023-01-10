@@ -35,6 +35,8 @@ With types supported:
 - [ ] Other entity
 - [x] default value
 
+
+
 Some other features:
 - [x] default value
 - [x] multiple entities
@@ -64,6 +66,11 @@ Crud Available:
 - [x] delete
 - [x] convert model to entity
 - [ ] automated tests
+
+
+FastAPI features:
+- [ ] Response Models
+
 
 To test it, run:
 ```bash
