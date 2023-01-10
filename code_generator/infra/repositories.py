@@ -1,6 +1,6 @@
 import os
 import inspect
-from typing import Dict
+from typing import Dict, List, Any
 
 from code_generator.common.templates import (
     imports_repository
@@ -15,7 +15,7 @@ def generate_repository(class_model: type) -> None:
     model_name = f'{class_model.__name__.capitalize()}'
     model_name_min = f'{class_model.__name__.lower()}'
 
-    attributes: Dict[str, type] = inspect.getmembers(class_model())[0][1]
+    attributes: List[Dict[str, Any]] = inspect.getmembers(class_model())[0][1]["attributes"]
     with open(filename, 'w+') as f:
         f.write(imports_repository)
 
@@ -33,7 +33,9 @@ def to_entity(model: Query | {model_name}Model) -> {model_name} | None:
 
     return {model_name}(\n""")
 
-        for field, _ in attributes.items():
+        for attribute in attributes:
+            field = attribute.get("name")
+
             f.write(f"""        model.{field},\n""")
         f.write(f"""    )\n\n
 def find_all(db: Session, skip: int = 0, limit: int = 100) -> List[{model_name}]:

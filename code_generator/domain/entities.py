@@ -1,11 +1,11 @@
 import os
 import inspect
-from typing import Dict
+from typing import Dict, List, Any
 
 from code_generator.common.templates import imports_entity
 
-check_if_required = lambda attribute: "default_value" not in attribute.keys()
-check_if_not_required = lambda attribute: "default_value" in attribute.keys()
+check_if_required = lambda attribute: not attribute.get("has_default_value")
+check_if_not_required = lambda attribute: attribute.get("has_default_value")
 
 
 def generate_entity(class_model: type) -> None:
@@ -13,8 +13,9 @@ def generate_entity(class_model: type) -> None:
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     open(f"src/{class_model.__name__.lower()}/domain/__init__.py", "a").close()
 
-    members = inspect.getmembers(class_model())
-    attributes: Dict[str, type] = members[0][1]["attributes"]
+    attributes: List[Dict[str, Any]] = inspect.getmembers(class_model())[0][1][
+        "attributes"
+    ]
 
     with open(filename, "w+") as f:
         f.write(imports_entity)
