@@ -33,10 +33,10 @@ With types supported:
 - [x] datetime
 - [ ] decimal
 - [ ] Other entity
-- [ ] default value
+- [x] default value
 
 Some other features:
-- [ ] default value
+- [x] default value
 - [x] multiple entities
 - [x] Seedworks
 
@@ -51,7 +51,7 @@ With types supported:
 - [ ] Other entity
 
 Some other features:
-- [ ] default value
+- [x] default value
 - [x] multiple models
 
 Crud Available:
@@ -67,7 +67,7 @@ Crud Available:
 
 To test it, run:
 ```bash
-python main.py
+python cli.py
 ```
 
 
@@ -81,7 +81,7 @@ Currently supported technologies are:
 ## Back-end Framework: MySQL
 - [x] FastAPI
 - [ ] Flask
-- [ ] Django
+- [ ] Django (maybe)
 
 ## APIs Layers:
 - [x] Rest
