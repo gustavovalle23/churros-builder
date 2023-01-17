@@ -1,6 +1,4 @@
 import os
-import inspect
-from typing import Dict
 
 
 def generate_repository(class_model: type) -> None:

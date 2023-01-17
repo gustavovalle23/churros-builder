@@ -50,11 +50,6 @@ def generate_exceptions():
 
     with open(filename, 'w+') as f:
         f.write("""# -*- coding: utf-8 -*-
-class InvalidUuidException(Exception):
-    def __init__(self, error='ID must be a valid UUID') -> None:
-        super().__init__(error)
-
-
 class ValidationException(Exception):
     pass
 
@@ -181,12 +176,9 @@ def generate_value_objects():
 
     with open(filename, 'w+') as f:
         f.write("""# -*- coding: utf-8 -*-
-import uuid
 import json
 from abc import ABC
 from dataclasses import dataclass, field, fields
-
-from src.__seedwork.domain.exceptions import InvalidUuidException
 
 
 @dataclass(frozen=True, slots=True)
@@ -200,25 +192,6 @@ class ValueObject(ABC):
                 field_name: getattr(self, field_name) 
                 for field_name in fields_name
             })
-
-
-@dataclass(frozen=True, slots=True)
-class UniqueEntityId(ValueObject):
-
-    id: str = field(
-        default_factory=lambda: str(uuid.uuid4())
-    )
-
-    def __post_init__(self):
-        id_value = str(self.id) if isinstance(self.id, uuid.UUID) else self.id
-        object.__setattr__(self, 'id', id_value)
-        self.__validate()
-
-    def __validate(self):
-        try:
-            uuid.UUID(self.id)
-        except ValueError as ex:
-            raise InvalidUuidException() from ex
 """)    
 
 

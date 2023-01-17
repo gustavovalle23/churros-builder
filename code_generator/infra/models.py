@@ -1,6 +1,6 @@
 import os
 import inspect
-from typing import Dict
+from typing import Dict, List, Any
 
 from code_generator.common.templates import (
     timestamp_model, template_model
@@ -31,9 +31,11 @@ def generate_model(class_model: type, multiple_model) -> None:
         with open(filename, 'a+') as f:
             f.write('# -*- coding: utf-8 -*-\n')
 
-    attributes: Dict[str, type] = inspect.getmembers(class_model())[0][1]
+    attributes: List[Dict[str, Any]] = inspect.getmembers(class_model())[0][1]["attributes"]
+
     with open(filename, 'a+') as f:
-        for _, type_of_field in attributes.items():
+        for attribute in attributes:
+            type_of_field = attribute.get("type")
             if type_of_field.__module__ == "builtins" or type_of_field.__name__ == 'datetime':
                 continue
 
@@ -48,7 +50,10 @@ def generate_model(class_model: type, multiple_model) -> None:
 
     id: str = Column(String(255), primary_key=True, index=True)""")
 
-        for field, type_of_field in attributes.items():
+        for attribute in attributes:
+            field = attribute.get("name")
+            type_of_field = attribute.get("type")
+
             if field in ("id", "created_at", "updated_at"):
                 continue
 
