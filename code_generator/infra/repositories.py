@@ -60,9 +60,7 @@ def delete(db: Session, {model_name_min}_id: str) -> None:
 
 
 def save(db: Session, input: Create{model_name}Input) -> {model_name} | None:
-    {model_name_min} = {model_name}Model(
-        id=uuid().hex, **json.loads(input.json())
-    )
+    {model_name_min} = {model_name}Model(**json.loads(input.json()))
     db.add({model_name_min})
     db.commit()
     return to_entity({model_name_min})

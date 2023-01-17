@@ -31,7 +31,7 @@ def generate_entity(class_model: type) -> None:
         f.write(
             f"""\n\n@dataclass(kw_only=True, frozen=True, slots=True)
 class {class_model.__name__.capitalize()}(Entity):
-    id: uuid"""
+    id: int"""
         )
 
         default_attributes = list(filter(check_if_not_required, attributes))

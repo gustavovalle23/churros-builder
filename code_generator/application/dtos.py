@@ -13,7 +13,6 @@ def generate_dtos(class_model: type) -> None:
     with open(filename, 'w+') as f:
         f.write("""# -*- coding: utf-8 -*-
 from pydantic import BaseModel
-from uuid import UUID as uuid
 """)
 
         # Model
@@ -27,7 +26,7 @@ from uuid import UUID as uuid
 
         f.write(f"""\n
 class {class_model.__name__.capitalize()}(BaseModel):
-    id: uuid""")
+    id: int""")
 
         for attribute in attributes:
             field = attribute.get("name")
@@ -43,7 +42,7 @@ class {class_model.__name__.capitalize()}(BaseModel):
         # Create Model Input
         f.write(f"""\n\n
 class Create{class_model.__name__.capitalize()}Input(BaseModel):
-    id: uuid""")
+    id: int""")
 
         for attribute in attributes:
             field = attribute.get("name")
