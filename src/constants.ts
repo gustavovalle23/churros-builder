@@ -46,4 +46,16 @@ export const questions = [
     message: 'Will use PostgreSQL?',
     default: false,
   },
+  {
+    type: 'confirm',
+    name: 'useKoa',
+    message: 'Will use Koa?',
+    default: false,
+  },
+  {
+    type: 'confirm',
+    name: 'useExpress',
+    message: 'Will use Express?',
+    default: false,
+  },
 ]

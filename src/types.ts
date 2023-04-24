@@ -6,4 +6,6 @@ export interface Answers {
   useRabbitMQ: boolean;
   useMongoDB: boolean;
   usePostgreSQL: boolean;
+  useKoa: boolean;
+  useExpress: boolean;
 }
