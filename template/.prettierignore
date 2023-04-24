@@ -1,0 +1,11 @@
+node_modules/
+coverage/
+yarn.lock
+*.log
+.github/
+.husky
+dist/
+.prettierrc
+src/infra/proto-files
+src/schema.federated.gql
+src/schema.gql

@@ -1,101 +1,65 @@
-# Churrospy
-
-Library that unify all core librarys from churrospy
-
-### Installing
-Obs: it is very recommend you use a virtual environment
-
-```sh
-# Create a virtual env
-python3 -m venv venv
-
-# Activate the virtual env
-source venv/bin/activate
-
-# Install dependencies inside virtual env
-pip3 install -r requirements.txt
-
-# To exit the virtual env you could execute the following command
-deactivate
-```
+# ChurrosCLI
 
 # Currently features available:
-- [x] application (dtos, errors and routers)
-- [x] domain (entities)
-- [x] infra (models, database config and repositories)
+- [ ] application (dtos, errors and routers)
+- [ ] domain (entities)
+- [ ] infra (models, database config and repositories)
 
 ## Entity generator
 With types supported:
-- [x] str
-- [x] int
-- [x] bool
-- [x] float
-- [x] datetime
+- [ ] str
+- [ ] int
+- [ ] bool
+- [ ] float
+- [ ] datetime
 - [ ] decimal
 - [ ] Other entity
-- [x] default value
+- [ ] default value
 
 
 
 Some other features:
-- [x] default value
-- [x] multiple entities
-- [x] Seedworks
+- [ ] default value
+- [ ] multiple entities
+- [ ] Seedworks
 
-## SqlAlchemy Model Generator
+## ORM Model Generator
 With types supported:
-- [x] str
-- [x] int
-- [x] bool
-- [x] float
-- [x] datetime
+- [ ] str
+- [ ] int
+- [ ] bool
+- [ ] float
+- [ ] datetime
 - [ ] decimal
 - [ ] Other entity
 
 Some other features:
-- [x] default value
-- [x] multiple models
+- [ ] default value
+- [ ] multiple models
 
 Crud Available:
-- [x] Find all (with pagination)
-- [x] find by id (unique)
+- [ ] Find all (with pagination)
+- [ ] find by id (unique)
 - [ ] find by field (each field)
-- [x] create
-- [x] update
+- [ ] create
+- [ ] update
 - [ ] inactivate
-- [x] delete
-- [x] convert model to entity
+- [ ] delete
+- [ ] convert model to entity
 - [ ] automated tests
-
-
-FastAPI features:
-- [ ] Response Models
-
-
-To test it, run:
-```bash
-python cli.py
-```
-
 
 Currently supported technologies are:
 ## Database:
-- [x] Sqlite3
+- [ ] Sqlite3
 - [ ] PostgreSQL
 - [ ] MySQL
 - [ ] MongoDB
 
-## Back-end Framework: MySQL
-- [x] FastAPI
-- [ ] Flask
-- [ ] Django (maybe)
+## Back-end Frameworks:
+- [ ] KoaJS
+- [ ] Express
+- [ ] NestJS
 
 ## APIs Layers:
-- [x] Rest
+- [ ] Rest
 - [ ] GraphQL
-
-
-To run generated application:
-```bash
-uvicorn src.main:app --reload
-```
