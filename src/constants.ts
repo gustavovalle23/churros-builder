@@ -1,3 +1,17 @@
+import { Answers } from './types'
+
+export const defaultAnswers: Answers = {
+  projectName: 'users',
+  useKoa: true,
+  useExpress: false,
+  useGraphql: false,
+  useGrpc: false,
+  useKafka: false,
+  useMongoDB: false,
+  usePostgreSQL: false,
+  useRabbitMQ: false,
+}
+
 export const questions = [
   {
     type: 'input',

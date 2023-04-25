@@ -1,22 +1,34 @@
+import * as dotenv from 'dotenv';
 import { createPromptModule } from 'inquirer';
 import { Answers } from './src/types';
 import { createDefaultFiles } from './src/defaultFiles';
-import { questions } from './src/constants';
+import { defaultAnswers, questions } from './src/constants';
 import { createSonarProjectProperties } from './src/sonarProperties';
 import { createProjectDirectory } from './src/directory';
-import { createEntrypoint } from 'src/entrypoint';
+import { createEntrypoint } from './src/entrypoint';
 
-const prompt = createPromptModule();
+dotenv.config();
 
-prompt<Answers>(questions)
-  .then(async (answers: Answers) => {
-    const dirName = await createProjectDirectory(answers.projectName);
+const build = async (answers: Answers) => {
+  const dirName = await createProjectDirectory(answers.projectName);
 
-    await createDefaultFiles(dirName);
-    await createSonarProjectProperties(dirName, answers.projectName);
-    await createEntrypoint(answers, dirName);
+  await Promise.all([
+    createDefaultFiles(dirName),
+    createEntrypoint(dirName, answers),
+    createSonarProjectProperties(dirName, answers.projectName),
+  ])
+}
 
-  })
-  .catch((error: Error) => {
-    console.error(error);
-  });
+if (process.env.DEFAULT_PARAMS) {
+  build(defaultAnswers)
+} else {
+  const prompt = createPromptModule();
+
+  prompt<Answers>(questions)
+    .then(async (answers: Answers) => {
+      await build(answers)
+    })
+    .catch((error: Error) => {
+      console.error(error);
+    });
+}
