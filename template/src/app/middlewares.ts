@@ -1,4 +1,4 @@
-import { createUserRouter } from '@/infra/routers';
+import { createUserRouter } from '../infra/routers';
 
 export const setupRouters = (app: any, di: any) => {
     const userRouter = createUserRouter({
