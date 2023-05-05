@@ -1,11 +1,12 @@
 export interface Answers {
   projectName: string;
-  useKafka: boolean;
+  useRest: boolean;
   useGraphql: boolean;
+  useKafka: boolean;
   useGrpc: boolean;
   useRabbitMQ: boolean;
-  useMongoDB: boolean;
   usePostgreSQL: boolean;
+  useMongoDB: boolean;
   useKoa: boolean;
   useExpress: boolean;
 }

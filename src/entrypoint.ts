@@ -1,9 +1,14 @@
 import { promisify } from 'util';
-import { Answers } from './types';
 import { writeFile } from 'fs';
 
-export async function createEntrypoint(dirName: string, answers: Answers) {
-  if (answers.useExpress) {
+export enum BackendFramework {
+  EXPRESS = 'express',
+  KOA = 'KOA'
+}
+
+
+export async function createEntrypoint(dirName: string, framework: BackendFramework) {
+  if (framework === BackendFramework.EXPRESS) {
     const mainContent = `import express, { Request, Response } from 'express';
 
 const app = express();
@@ -21,7 +26,7 @@ app.listen(PORT, () => {
     await promisify(writeFile)(`${dirName}/index.ts`, mainContent);
 
     console.log(`main.ts file created with Express application at: ${dirName}/index.ts`);
-  } else if (answers.useKoa) {
+  } else if (framework === BackendFramework.KOA) {
     const mainContent = `import Koa, { Context, Next } from 'koa';
 
 const app = new Koa();

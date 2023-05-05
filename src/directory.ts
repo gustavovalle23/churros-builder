@@ -1,13 +1,9 @@
 import { mkdir } from 'fs';
-import slugify from 'slugify';
 import { promisify } from 'util';
 
 const mkdirAsync = promisify(mkdir);
 
-export async function createProjectDirectory(projectName: string): Promise<string> {
-  const projectSlug = slugify(projectName, { lower: true });
-  const dirName = `${projectSlug}`;
-
+export async function createProjectDirectory(dirName: string): Promise<void> {
   try {
     await mkdirAsync(dirName);
     console.log(`Directory ${dirName} created successfully!`);
@@ -18,6 +14,4 @@ export async function createProjectDirectory(projectName: string): Promise<strin
     }
     console.log(`Directory ${dirName} already exists.`);
   }
-
-  return dirName;
 }

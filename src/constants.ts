@@ -5,6 +5,7 @@ export const defaultAnswers: Answers = {
   useKoa: true,
   useExpress: false,
   useGraphql: false,
+  useRest: true,
   useGrpc: false,
   useKafka: false,
   useMongoDB: false,
@@ -58,6 +59,12 @@ export const questions = [
     type: 'confirm',
     name: 'usePostgreSQL',
     message: 'Will use PostgreSQL?',
+    default: false,
+  },
+  {
+    type: 'confirm',
+    name: 'useMongoDB',
+    message: 'Will use MongoDB?',
     default: false,
   },
   {
