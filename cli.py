@@ -1,4 +1,3 @@
-import questionary
 from typing import Dict, Any, List
 from code_generator.domain.entities import generate_entities
 from code_generator.domain.repositories import generate_repositories

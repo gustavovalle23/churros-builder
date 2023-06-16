@@ -1,21 +1,22 @@
-from code_generator.models_example import  User, Order
-from code_generator.domain.entities import generate_entities
-from code_generator.domain.repositories import generate_repositories
-from code_generator.infra.models import generate_models
-from code_generator.infra.repositories import generate_repository
-from code_generator.application import generate_routers
-from code_generator.main import generate_main
-from code_generator.seedwork.domain import generate_domain_seedwork
-from code_generator.seedwork.application import generate_use_cases
+import uvicorn
+from fastapi import FastAPI
+from pydantic import BaseModel
 
+from generation import generate_routers
 
-generate_entities([User, Order])
-# generate_repositories([User, Order])
-# generate_models([User, Order])
-# generate_repository(User)
-# generate_repository(Order)
-# generate_routers(User)
-# generate_routers(Order)
-# generate_main([User, Order])
-# generate_domain_seedwork()
-# generate_use_cases()
+class EntityItem(BaseModel):
+    name: str
+    value: str
+
+class Entity(BaseModel):
+    items: list[EntityItem]
+
+app = FastAPI()
+
+@app.post("/")
+async def build_api(entity: Entity):
+    generate_routers([entity])
+    return {"Hello": "World"}
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, log_level="info", reload=True)
