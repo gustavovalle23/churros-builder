@@ -19,7 +19,13 @@ def generate_entity(entity_name: str, entity_items: list[EntityItem]) -> None:
         for attribute in entity_items:
             if attribute.type in builtins_types:
                 continue
-            f.write(f"""from {attribute.type} import {attribute.type}\n""")
+
+            if attribute.type != "datetime":
+                f.write(
+                    f"""from src.{attribute.type.lower()}.domain.entities import {attribute.type.capitalize()}\n"""
+                )
+            else:
+                f.write(f"""from datetime import datetime\n""")
 
         f.write("\nfrom src.__seedwork.domain.entities import Entity\n")
         f.write(

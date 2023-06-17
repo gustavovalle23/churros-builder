@@ -32,7 +32,7 @@ With types supported:
 - [x] float
 - [x] datetime
 - [ ] decimal
-- [ ] Other entity
+- [x] Other entity
 - [x] default value
 
 
@@ -107,3 +107,4 @@ uvicorn src.main:app --reload
 ## Todo
 - [ ] Fix seedwork error: missing UniqueEntityId
 - [ ] Fix ModuleNotFoundError: No module named 'src'
+- [ ] Fix duplicate imports
