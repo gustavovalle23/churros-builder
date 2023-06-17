@@ -1,64 +1,64 @@
 import os
-import inspect
-from typing import Dict, List, Any
+from typing import Any
 
+from base_request import EntityItem
 from code_generator.common.templates import imports_entity
 
-check_if_required = lambda attribute: not attribute.get("has_default_value")
-check_if_not_required = lambda attribute: attribute.get("has_default_value")
+
+builtins_types = ['str', 'int', 'float', 'bool']
+
+check_if_required = lambda attribute: not attribute.default_value
+check_if_not_required = lambda attribute: attribute.default_value
 
 
-def generate_entity(class_model: type) -> None:
-    filename = f"src/{class_model.__name__.lower()}/domain/entities.py"
+def generate_entity(entity_name: str, entity_items: list[EntityItem]) -> None:
+    filename = f"src/{entity_name}/domain/entities.py"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
-    open(f"src/{class_model.__name__.lower()}/domain/__init__.py", "a").close()
+    open(f"src/{entity_name}/domain/__init__.py", "a").close()
 
-    attributes: List[Dict[str, Any]] = inspect.getmembers(class_model())[0][1][
-        "attributes"
-    ]
 
     with open(filename, "w+") as f:
         f.write(imports_entity)
 
-        for attribute in attributes:
-            if attribute.get("type").__module__ == "builtins":
+        for attribute in entity_items:
+            if attribute.type in builtins_types:
                 continue
             f.write(
-                f"""from {attribute.get('type').__module__} import {attribute.get('type').__name__}\n"""
+                f"""from {attribute.type} import {attribute.type}\n"""
             )
 
         f.write("\nfrom src.__seedwork.domain.entities import Entity\n")
         f.write(
             f"""\n\n@dataclass(kw_only=True, frozen=True, slots=True)
-class {class_model.__name__.capitalize()}(Entity):
+class {entity_name.capitalize()}(Entity):
     id: int"""
         )
 
-        default_attributes = list(filter(check_if_not_required, attributes))
-        required_attributes = list(filter(check_if_required, attributes))
+        default_attributes: list[EntityItem] = list(filter(check_if_not_required, entity_items))
+        required_attributes: list[EntityItem] = list(filter(check_if_required, entity_items))
 
         for required_attribute in required_attributes:
-            field = required_attribute.get("name")
-            type_of_field = required_attribute.get("type")
+            field = required_attribute.name
+            type_of_field = required_attribute.type
 
             if field == "id":
                 continue
 
             f.write(
                 f"""
-    {field}: {type_of_field.__name__}"""
+    {field}: {type_of_field}"""
             )
 
         for default_attribute in default_attributes:
-            field = default_attribute.get("name")
-            type_of_field = default_attribute.get("type")
+            field = default_attribute.name
+            type_of_field = default_attribute.type
 
             if field == "id":
                 continue
 
             f.write(
                 f"""
-    {field}: Optional[{type_of_field.__name__}] = {default_attribute.get('default_value')}"""
+    {field}: Optional[{type_of_field}] = '{default_attribute.default_value}'"""
             )
 
         f.write(
@@ -73,3 +73,6 @@ class {class_model.__name__.capitalize()}(Entity):
 
 def generate_entities(list_of_models: list) -> set:
     return set(map(generate_entity, list_of_models))
+
+
+generate_entity('user', [EntityItem(name='name', type='str', default_value='Gus')])

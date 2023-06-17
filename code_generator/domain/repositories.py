@@ -63,7 +63,3 @@ class {model}Repository(metaclass=ABCMeta):
         pass
 """
         )
-
-
-def generate_repositories(list_of_models: list) -> set:
-    return set(map(generate_repository, list_of_models))
