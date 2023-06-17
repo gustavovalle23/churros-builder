@@ -9,5 +9,5 @@ class EntityItem(BaseModel):
     default_value: Optional[Any]
 
 class Entity(BaseModel):
-    entity_name: str
+    name: str
     items: list[EntityItem]

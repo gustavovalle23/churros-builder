@@ -1,73 +1,70 @@
 import os
-import inspect
-from typing import Dict, List, Any
+
+from base_request import EntityItem, builtins_types
 
 
-def generate_dtos(class_model: type) -> None:
-    filename = f'src/{class_model.__name__.lower()}/application/dtos.py'
+def generate_dtos(entity_name: str, items: list[EntityItem]) -> None:
+    filename = f'src/{entity_name}/application/dtos.py'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
-    open(f'src/{class_model.__name__.lower()}/application/__init__.py', 'a').close()
-
-    attributes: List[Dict[str, Any]] = inspect.getmembers(class_model())[0][1]["attributes"]
+    open(f'src/{entity_name}/application/__init__.py', 'a').close()
 
     with open(filename, 'w+') as f:
         f.write("""# -*- coding: utf-8 -*-
 from pydantic import BaseModel
 """)
 
-        # Model
-        for attribute in attributes:
-            type_of_field = attribute.get("type")
+        for attribute in items:
+            type_of_field = attribute.type
 
-            if type_of_field.__module__ == "builtins":
+            if type_of_field in builtins_types:
                 continue
             f.write(
-                f'from {type_of_field.__module__} import {type_of_field.__name__}\n')
+                f'from {type_of_field} import {type_of_field}\n')
 
         f.write(f"""\n
-class {class_model.__name__.capitalize()}(BaseModel):
+class {entity_name.capitalize()}(BaseModel):
     id: int""")
 
-        for attribute in attributes:
-            field = attribute.get("name")
-            type_of_field = attribute.get("type")
+        for attribute in items:
+            field = attribute.name
+            type_of_field = attribute.type
             if field == "id":
                 continue
 
             f.write(
                 f"""
-    {field}: {type_of_field.__name__}""")
+    {field}: {type_of_field}""")
 
 
         # Create Model Input
         f.write(f"""\n\n
-class Create{class_model.__name__.capitalize()}Input(BaseModel):
+class Create{entity_name.capitalize()}Input(BaseModel):
     id: int""")
 
-        for attribute in attributes:
-            field = attribute.get("name")
-            type_of_field = attribute.get("type")
+        for attribute in items:
+            field = attribute.name
+            type_of_field = attribute.type
 
             if field == "id":
                 continue
 
             f.write(
                 f"""
-    {field}: {type_of_field.__name__}""")
+    {field}: {type_of_field}""")
 
 
         # Update Model Input
         f.write(f"""\n\n
-class Update{class_model.__name__.capitalize()}Input(BaseModel):""")
+class Update{entity_name.capitalize()}Input(BaseModel):""")
 
-        for attribute in attributes:
-            field = attribute.get("name")
-            type_of_field = attribute.get("type")
+        for attribute in items:
+            field = attribute.name
+            type_of_field = attribute.type
 
             if field == "id":
                 continue
 
             f.write(
                 f"""
-    {field}: {type_of_field.__name__}""")
+    {field}: {type_of_field}""")
         f.write("\n")

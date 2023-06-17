@@ -1,15 +1,17 @@
 import os
 
+from base_request import EntityItem
 
-def generate_routers(class_model: type) -> None:
+
+def generate_routers(entity_name: str, items: list[EntityItem]) -> None:
     from code_generator.application.errors import generate_errors
     from code_generator.application.dtos import generate_dtos
 
-    generate_errors(class_model)
-    generate_dtos(class_model)
+    generate_errors(entity_name, items)
+    generate_dtos(entity_name, items)
 
-    model_name_min = class_model.__name__.lower()
-    model_name = f'{class_model.__name__.capitalize()}'
+    model_name_min = entity_name
+    model_name = f'{entity_name.capitalize()}'
 
     filename = f'src/infra/api/routers/{model_name_min}.py'
     os.makedirs(os.path.dirname(filename), exist_ok=True)
@@ -58,7 +60,7 @@ async def update_{model_name_min}(input: Update{model_name}Input, db: Session = 
         return {model_name}NotFound()
 
     updated_{model_name_min} = {model_name_min}_repository.update(db, input)
-    return {'{'}"message": "updated", {model_name_min}: updated_{model_name_min}{'}'}
+    return {'{'}"message": "updated", "{model_name_min}": updated_{model_name_min}{'}'}
 
 
 @router.delete("/{model_name_min}s/{'{'}{model_name_min}_id{'}'}", tags=["{model_name_min}s"])

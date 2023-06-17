@@ -70,6 +70,3 @@ class {entity_name.capitalize()}(Entity):
 
 def generate_entities(list_of_models: list) -> set:
     return set(map(generate_entity, list_of_models))
-
-
-generate_entity('user', [EntityItem(name='name', type='str', default_value='Gus')])
