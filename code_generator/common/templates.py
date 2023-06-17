@@ -35,16 +35,13 @@ timestamp_model = """
 
 imports_entity = """# -*- coding: utf-8 -*-
 from typing import Optional
-from uuid import UUID as uuid
 from datetime import datetime, timezone
 from dataclasses import dataclass\n"""
-
 
 
 imports_repository = """
 # -*- coding: utf-8 -*-
 import json
 from typing import List
-from uuid import uuid1 as uuid
 from sqlalchemy.orm import Session, Query
 """

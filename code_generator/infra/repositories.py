@@ -1,80 +1,83 @@
 import os
 import inspect
-from typing import Dict
+from typing import Dict, List, Any
 
-from code_generator.common.templates import (
-    imports_repository
-)
+from base_request import EntityItem
+
+from code_generator.common.templates import imports_repository
 
 
-def generate_repository(class_model: type) -> None:
-    filename = f'src/infra/repositories/{class_model.__name__.lower()}.py'
+def generate_repository(entity_name: str, entity_items: list[EntityItem]) -> None:
+    filename = f"src/infra/repositories/{entity_name}.py"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
-    open('src/infra/repositories/__init__.py', 'a').close()
+    open("src/infra/repositories/__init__.py", "a").close()
 
-    model_name = f'{class_model.__name__.capitalize()}'
-    model_name_min = f'{class_model.__name__.lower()}'
+    model_name = f"{entity_name.capitalize()}"
 
-    attributes: Dict[str, type] = inspect.getmembers(class_model())[0][1]
-    with open(filename, 'w+') as f:
+    with open(filename, "w+") as f:
         f.write(imports_repository)
 
-        f.write(f"""
-from src.{model_name_min}.application.dtos import Create{model_name}Input, Update{model_name}Input
-from src.{model_name_min}.domain.entities import {model_name}
+        f.write(
+            f"""
+from src.{entity_name}.application.dtos import Create{model_name}Input, Update{model_name}Input
+from src.{entity_name}.domain.entities import {model_name}
 from src.infra.models import {model_name}Model
-""")
+"""
+        )
 
-
-        f.write(f"""\n
+        f.write(
+            f"""\n
 def to_entity(model: Query | {model_name}Model) -> {model_name} | None:
     if not model:
         return
 
-    return {model_name}(\n""")
+    return {model_name}(\n"""
+        )
 
-        for field, _ in attributes.items():
+        for attribute in entity_items:
+            field = attribute.name
+
             f.write(f"""        model.{field},\n""")
-        f.write(f"""    )\n\n
+        f.write(
+            f"""    )\n\n
 def find_all(db: Session, skip: int = 0, limit: int = 100) -> List[{model_name}]:
-    {model_name_min}s = (
+    {entity_name}s = (
         db.query({model_name}Model).offset(skip).limit(limit)
     )
-    return tuple(map(to_entity, {model_name_min}s))
+    return tuple(map(to_entity, {entity_name}s))
 
 
-def find_by_id(db: Session, {model_name_min}_id: str) -> {model_name} | None:
-    {model_name_min} = (
+def find_by_id(db: Session, {entity_name}_id: str) -> {model_name} | None:
+    {entity_name} = (
         db.query({model_name}Model)
-        .filter({model_name}Model.id == {model_name_min}_id)
+        .filter({model_name}Model.id == {entity_name}_id)
         .first()
     )
-    return to_entity({model_name_min})
+    return to_entity({entity_name})
 
 
-def delete(db: Session, {model_name_min}_id: str) -> None:
-    db.query({model_name}Model).filter({model_name}Model.id == {model_name_min}_id).delete()
+def delete(db: Session, {entity_name}_id: str) -> None:
+    db.query({model_name}Model).filter({model_name}Model.id == {entity_name}_id).delete()
     db.commit()
 
 
 def save(db: Session, input: Create{model_name}Input) -> {model_name} | None:
-    {model_name_min} = {model_name}Model(
-        id=uuid().hex, **json.loads(input.json())
-    )
-    db.add({model_name_min})
+    {entity_name} = {model_name}Model(**json.loads(input.json()))
+    db.add({entity_name})
     db.commit()
-    return to_entity({model_name_min})
+    return to_entity({entity_name})
 
 
 def update(db: Session, input: Update{model_name}Input) -> {model_name} | None:
-    {model_name_min}_id = input.id
+    {entity_name}_id = input.id
     data: dict = json.loads(input.json())
     data = {'{'}attribute: value for attribute, value in data.items() if value != None and attribute != 'id'{'}'}
 
-    db.query({model_name}Model).filter({model_name}Model.id == {model_name_min}_id).update(
+    db.query({model_name}Model).filter({model_name}Model.id == {entity_name}_id).update(
         data
     )
     db.commit()
-    updated_{model_name_min} = db.query({model_name}Model).filter({model_name}Model.id == input.id).first()
-    return to_entity(updated_{model_name_min})
-""")
+    updated_{entity_name} = db.query({model_name}Model).filter({model_name}Model.id == input.id).first()
+    return to_entity(updated_{entity_name})
+"""
+        )

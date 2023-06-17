@@ -1,24 +1,29 @@
 import os
 
+from base_request import EntityItem
 
-def generate_routers(class_model: type) -> None:
+
+def generate_routers(entity_name: str, items: list[EntityItem]) -> None:
     from code_generator.application.errors import generate_errors
     from code_generator.application.dtos import generate_dtos
 
-    generate_errors(class_model)
-    generate_dtos(class_model)
+    generate_errors(entity_name, items)
+    generate_dtos(entity_name, items)
 
-    model_name_min = class_model.__name__.lower()
-    model_name = f'{class_model.__name__.capitalize()}'
+    model_name_min = entity_name
+    model_name = f"{entity_name.capitalize()}"
 
-    filename = f'src/infra/api/routers/{model_name_min}.py'
+    filename = f"src/infra/api/routers/{model_name_min}.py"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
-    with open('src/infra/api/routers/__init__.py', 'a') as f:
-        f.write(f'from src.infra.api.routers.{model_name_min} import router as router_{model_name_min}s\n')
+    with open("src/infra/api/routers/__init__.py", "a") as f:
+        f.write(
+            f"from src.infra.api.routers.{model_name_min} import router as router_{model_name_min}s\n"
+        )
 
-    with open(filename, 'w+') as f:
-        f.write(f"""# -*- coding: utf-8 -*-
+    with open(filename, "w+") as f:
+        f.write(
+            f"""# -*- coding: utf-8 -*-
 from typing import Tuple, Optional
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, status
@@ -58,7 +63,7 @@ async def update_{model_name_min}(input: Update{model_name}Input, db: Session = 
         return {model_name}NotFound()
 
     updated_{model_name_min} = {model_name_min}_repository.update(db, input)
-    return {'{'}"message": "updated", {model_name_min}: updated_{model_name_min}{'}'}
+    return {'{'}"message": "updated", "{model_name_min}": updated_{model_name_min}{'}'}
 
 
 @router.delete("/{model_name_min}s/{'{'}{model_name_min}_id{'}'}", tags=["{model_name_min}s"])
@@ -72,4 +77,5 @@ async def delete_{model_name_min}(
 
     {model_name_min}_repository.delete(db, {model_name_min}_id)
     return {'{'}"message": "deleted"{'}'}
-""")
+"""
+        )

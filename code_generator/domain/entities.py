@@ -1,65 +1,78 @@
 import os
-import inspect
-from typing import Dict
+from typing import Any
 
-from code_generator.common.templates import (
-    imports_entity
-)
+from base_request import EntityItem, builtins_types
+from code_generator.common.templates import imports_entity
+
+check_if_required = lambda attribute: not attribute.has_default_value
+check_if_not_required = lambda attribute: attribute.has_default_value
 
 
-def generate_entity(class_model: type) -> None:
-    filename = f'src/{class_model.__name__.lower()}/domain/entities.py'
+def generate_entity(entity_name: str, entity_items: list[EntityItem]) -> None:
+    filename = f"src/{entity_name}/domain/entities.py"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
-    open(f'src/{class_model.__name__.lower()}/domain/__init__.py', 'a').close()
+    open(f"src/{entity_name}/domain/__init__.py", "a").close()
 
-    members = inspect.getmembers(class_model())
-    attributes: Dict[str, type] = members[0][1]
-    default_values = dict(members[members.index(('__weakref__', None))+1::])
-
-    with open(filename, 'w+') as f:
+    with open(filename, "w+") as f:
         f.write(imports_entity)
 
-        for _, type_of_field in attributes.items():
-            if type_of_field.__module__ == "builtins":
+        for attribute in entity_items:
+            if attribute.type in builtins_types:
                 continue
-            f.write(
-f"""from {type_of_field.__module__} import {type_of_field.__name__}\n""")
 
-        f.write('\nfrom src.__seedwork.domain.entities import Entity\n')
-        f.write(f"""\n\n@dataclass(kw_only=True, frozen=True, slots=True)
-class {class_model.__name__.capitalize()}(Entity):
-    id: uuid""")
+            if attribute.type != "datetime":
+                f.write(
+                    f"""from src.{attribute.type.lower()}.domain.entities import {attribute.type.capitalize()}\n"""
+                )
+            else:
+                f.write(f"""from datetime import datetime\n""")
 
-        default_attributes = {
-            k: v for k, v in attributes.items() if k in default_values.keys()
-        }
+        f.write("\nfrom src.__seedwork.domain.entities import Entity\n")
+        f.write(
+            f"""\n\n@dataclass(kw_only=True, frozen=True, slots=True)
+class {entity_name.capitalize()}(Entity):
+    id: int"""
+        )
 
-        required_attributes = {
-            k: v for k, v in attributes.items() if k not in default_values.keys()
-        }
+        default_attributes: list[EntityItem] = list(
+            filter(check_if_not_required, entity_items)
+        )
+        required_attributes: list[EntityItem] = list(
+            filter(check_if_required, entity_items)
+        )
 
-        for field, type_of_field in required_attributes.items():
+        for required_attribute in required_attributes:
+            field = required_attribute.name
+            type_of_field = required_attribute.type
+
             if field == "id":
                 continue
 
             f.write(
                 f"""
-    {field}: {type_of_field.__name__}""")
+    {field}: {type_of_field}"""
+            )
 
-        for field, type_of_field in default_attributes.items():
+        for default_attribute in default_attributes:
+            field = default_attribute.name
+            type_of_field = default_attribute.type
+
             if field == "id":
                 continue
 
             f.write(
                 f"""
-    {field}: Optional[{type_of_field.__name__}] = {default_values.get(field)}""")
+    {field}: Optional[{type_of_field}] = {repr(default_attribute.default_value)}"""
+            )
 
-        f.write("""\n
+        f.write(
+            """\n
     def __post_init__(self):
         if not self.created_at:
             self._set('created_at',  datetime.now(
                 timezone.utc))
-""")
+"""
+        )
 
 
 def generate_entities(list_of_models: list) -> set:

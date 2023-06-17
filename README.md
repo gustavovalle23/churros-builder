@@ -32,11 +32,13 @@ With types supported:
 - [x] float
 - [x] datetime
 - [ ] decimal
-- [ ] Other entity
-- [ ] default value
+- [x] Other entity
+- [x] default value
+
+
 
 Some other features:
-- [ ] default value
+- [x] default value
 - [x] multiple entities
 - [x] Seedworks
 
@@ -51,7 +53,7 @@ With types supported:
 - [ ] Other entity
 
 Some other features:
-- [ ] default value
+- [x] default value
 - [x] multiple models
 
 Crud Available:
@@ -65,11 +67,19 @@ Crud Available:
 - [x] convert model to entity
 - [ ] automated tests
 
+
+FastAPI features:
+- [ ] Response Models
+
+
 To test it, run:
 ```bash
-python main.py
+python server.py
 ```
-
+or
+```bash
+python mock_server.py
+```
 
 Currently supported technologies are:
 ## Database:
@@ -78,10 +88,10 @@ Currently supported technologies are:
 - [ ] MySQL
 - [ ] MongoDB
 
-## Back-end Framework: MySQL
+## Back-end Framework:
 - [x] FastAPI
 - [ ] Flask
-- [ ] Django
+- [ ] Django (maybe)
 
 ## APIs Layers:
 - [x] Rest
@@ -92,3 +102,9 @@ To run generated application:
 ```bash
 uvicorn src.main:app --reload
 ```
+
+
+## Todo
+- [ ] Fix seedwork error: missing UniqueEntityId
+- [ ] Fix ModuleNotFoundError: No module named 'src'
+- [ ] Fix duplicate imports
