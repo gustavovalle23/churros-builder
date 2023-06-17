@@ -1,11 +1,8 @@
 import os
 from typing import Any
 
-from base_request import EntityItem
+from base_request import EntityItem, builtins_types
 from code_generator.common.templates import imports_entity
-
-
-builtins_types = ['str', 'int', 'float', 'bool']
 
 check_if_required = lambda attribute: not attribute.default_value
 check_if_not_required = lambda attribute: attribute.default_value
