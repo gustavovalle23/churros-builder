@@ -74,9 +74,12 @@ FastAPI features:
 
 To test it, run:
 ```bash
-python cli.py
+python server.py
 ```
-
+or
+```bash
+python mock_server.py
+```
 
 Currently supported technologies are:
 ## Database:
@@ -99,3 +102,8 @@ To run generated application:
 ```bash
 uvicorn src.main:app --reload
 ```
+
+
+## Todo
+- [ ] Fix seedwork error: missing UniqueEntityId
+- [ ] Fix ModuleNotFoundError: No module named 'src'

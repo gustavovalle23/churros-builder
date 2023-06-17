@@ -1,7 +1,9 @@
 from code_generator.domain.entities import generate_entity
 from code_generator.seedwork.domain import generate_domain_seedwork
 from code_generator.seedwork.application import generate_use_cases
-from code_generator.domain.repositories import generate_repository
+from code_generator.domain.repositories import (
+    generate_repository as generate_domain_repository,
+)
 from code_generator.infra.models import generate_model
 from code_generator.infra.repositories import generate_repository
 from code_generator.application import generate_routers
@@ -13,6 +15,7 @@ def build_api_service(entity: Entity):
     generate_domain_seedwork()
     generate_use_cases()
     generate_entity(entity.name, entity.items)
+    generate_domain_repository(entity.name)
     generate_repository(entity.name, entity.items)
     generate_model(entity.name, entity.items)
     generate_routers(entity.name, entity.items)

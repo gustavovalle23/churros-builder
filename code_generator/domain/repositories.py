@@ -1,12 +1,12 @@
 import os
 
 
-def generate_repository(class_model: type) -> None:
-    filename = f"src/{class_model.__name__.lower()}/domain/repositories.py"
+def generate_repository(entity_name: str) -> None:
+    filename = f"src/{entity_name}/domain/repositories.py"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
-    model_lower = class_model.__name__.lower()
-    model = class_model.__name__.capitalize()
+    model_lower = entity_name
+    model = entity_name.capitalize()
 
     with open(filename, "w+") as f:
         f.write(
