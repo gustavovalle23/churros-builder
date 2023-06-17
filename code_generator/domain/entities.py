@@ -4,8 +4,8 @@ from typing import Any
 from base_request import EntityItem, builtins_types
 from code_generator.common.templates import imports_entity
 
-check_if_required = lambda attribute: not attribute.default_value
-check_if_not_required = lambda attribute: attribute.default_value
+check_if_required = lambda attribute: not attribute.has_default_value
+check_if_not_required = lambda attribute: attribute.has_default_value
 
 
 def generate_entity(entity_name: str, entity_items: list[EntityItem]) -> None:
@@ -13,16 +13,13 @@ def generate_entity(entity_name: str, entity_items: list[EntityItem]) -> None:
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     open(f"src/{entity_name}/domain/__init__.py", "a").close()
 
-
     with open(filename, "w+") as f:
         f.write(imports_entity)
 
         for attribute in entity_items:
             if attribute.type in builtins_types:
                 continue
-            f.write(
-                f"""from {attribute.type} import {attribute.type}\n"""
-            )
+            f.write(f"""from {attribute.type} import {attribute.type}\n""")
 
         f.write("\nfrom src.__seedwork.domain.entities import Entity\n")
         f.write(
@@ -31,8 +28,12 @@ class {entity_name.capitalize()}(Entity):
     id: int"""
         )
 
-        default_attributes: list[EntityItem] = list(filter(check_if_not_required, entity_items))
-        required_attributes: list[EntityItem] = list(filter(check_if_required, entity_items))
+        default_attributes: list[EntityItem] = list(
+            filter(check_if_not_required, entity_items)
+        )
+        required_attributes: list[EntityItem] = list(
+            filter(check_if_required, entity_items)
+        )
 
         for required_attribute in required_attributes:
             field = required_attribute.name
@@ -55,7 +56,7 @@ class {entity_name.capitalize()}(Entity):
 
             f.write(
                 f"""
-    {field}: Optional[{type_of_field}] = '{default_attribute.default_value}'"""
+    {field}: Optional[{type_of_field}] = {repr(default_attribute.default_value)}"""
             )
 
         f.write(

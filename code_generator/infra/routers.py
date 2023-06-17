@@ -11,16 +11,19 @@ def generate_routers(entity_name: str, items: list[EntityItem]) -> None:
     generate_dtos(entity_name, items)
 
     model_name_min = entity_name
-    model_name = f'{entity_name.capitalize()}'
+    model_name = f"{entity_name.capitalize()}"
 
-    filename = f'src/infra/api/routers/{model_name_min}.py'
+    filename = f"src/infra/api/routers/{model_name_min}.py"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
 
-    with open('src/infra/api/routers/__init__.py', 'a') as f:
-        f.write(f'from src.infra.api.routers.{model_name_min} import router as router_{model_name_min}s\n')
+    with open("src/infra/api/routers/__init__.py", "a") as f:
+        f.write(
+            f"from src.infra.api.routers.{model_name_min} import router as router_{model_name_min}s\n"
+        )
 
-    with open(filename, 'w+') as f:
-        f.write(f"""# -*- coding: utf-8 -*-
+    with open(filename, "w+") as f:
+        f.write(
+            f"""# -*- coding: utf-8 -*-
 from typing import Tuple, Optional
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends, status
@@ -74,4 +77,5 @@ async def delete_{model_name_min}(
 
     {model_name_min}_repository.delete(db, {model_name_min}_id)
     return {'{'}"message": "deleted"{'}'}
-""")
+"""
+        )

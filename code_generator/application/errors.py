@@ -4,12 +4,13 @@ from base_request import EntityItem
 
 
 def generate_errors(entity_name: str, items: list[EntityItem]) -> None:
-    filename = f'src/{entity_name}/application/errors.py'
+    filename = f"src/{entity_name}/application/errors.py"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
-    open(f'src/{entity_name}/application/__init__.py', 'a').close()
+    open(f"src/{entity_name}/application/__init__.py", "a").close()
 
-    with open(filename, 'w+') as f:
-        f.write(f"""# -*- coding: utf-8 -*-
+    with open(filename, "w+") as f:
+        f.write(
+            f"""# -*- coding: utf-8 -*-
 from fastapi import status, HTTPException
 
 
@@ -25,4 +26,5 @@ class {entity_name.capitalize()}NotFound:
                 {'}'}
             ],
         )
-""")
+"""
+        )

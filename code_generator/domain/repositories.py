@@ -8,7 +8,6 @@ def generate_repository(class_model: type) -> None:
     model_lower = class_model.__name__.lower()
     model = class_model.__name__.capitalize()
 
-
     with open(filename, "w+") as f:
         f.write(
             f"""

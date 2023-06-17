@@ -39,7 +39,6 @@ from datetime import datetime, timezone
 from dataclasses import dataclass\n"""
 
 
-
 imports_repository = """
 # -*- coding: utf-8 -*-
 import json

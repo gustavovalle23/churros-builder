@@ -4,40 +4,42 @@ from typing import Dict, List, Any
 
 from base_request import EntityItem
 
-from code_generator.common.templates import (
-    imports_repository
-)
+from code_generator.common.templates import imports_repository
 
 
 def generate_repository(entity_name: str, entity_items: list[EntityItem]) -> None:
-    filename = f'src/infra/repositories/{entity_name}.py'
+    filename = f"src/infra/repositories/{entity_name}.py"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
-    open('src/infra/repositories/__init__.py', 'a').close()
+    open("src/infra/repositories/__init__.py", "a").close()
 
-    model_name = f'{entity_name.capitalize()}'
+    model_name = f"{entity_name.capitalize()}"
 
-    with open(filename, 'w+') as f:
+    with open(filename, "w+") as f:
         f.write(imports_repository)
 
-        f.write(f"""
+        f.write(
+            f"""
 from src.{entity_name}.application.dtos import Create{model_name}Input, Update{model_name}Input
 from src.{entity_name}.domain.entities import {model_name}
 from src.infra.models import {model_name}Model
-""")
+"""
+        )
 
-
-        f.write(f"""\n
+        f.write(
+            f"""\n
 def to_entity(model: Query | {model_name}Model) -> {model_name} | None:
     if not model:
         return
 
-    return {model_name}(\n""")
+    return {model_name}(\n"""
+        )
 
         for attribute in entity_items:
             field = attribute.name
 
             f.write(f"""        model.{field},\n""")
-        f.write(f"""    )\n\n
+        f.write(
+            f"""    )\n\n
 def find_all(db: Session, skip: int = 0, limit: int = 100) -> List[{model_name}]:
     {entity_name}s = (
         db.query({model_name}Model).offset(skip).limit(limit)
@@ -77,4 +79,5 @@ def update(db: Session, input: Update{model_name}Input) -> {model_name} | None:
     db.commit()
     updated_{entity_name} = db.query({model_name}Model).filter({model_name}Model.id == input.id).first()
     return to_entity(updated_{entity_name})
-""")
+"""
+        )

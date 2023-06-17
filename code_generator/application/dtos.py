@@ -4,26 +4,29 @@ from base_request import EntityItem, builtins_types
 
 
 def generate_dtos(entity_name: str, items: list[EntityItem]) -> None:
-    filename = f'src/{entity_name}/application/dtos.py'
+    filename = f"src/{entity_name}/application/dtos.py"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
-    open(f'src/{entity_name}/application/__init__.py', 'a').close()
+    open(f"src/{entity_name}/application/__init__.py", "a").close()
 
-    with open(filename, 'w+') as f:
-        f.write("""# -*- coding: utf-8 -*-
+    with open(filename, "w+") as f:
+        f.write(
+            """# -*- coding: utf-8 -*-
 from pydantic import BaseModel
-""")
+"""
+        )
 
         for attribute in items:
             type_of_field = attribute.type
 
             if type_of_field in builtins_types:
                 continue
-            f.write(
-                f'from {type_of_field} import {type_of_field}\n')
+            f.write(f"from {type_of_field} import {type_of_field}\n")
 
-        f.write(f"""\n
+        f.write(
+            f"""\n
 class {entity_name.capitalize()}(BaseModel):
-    id: int""")
+    id: int"""
+        )
 
         for attribute in items:
             field = attribute.name
@@ -33,13 +36,15 @@ class {entity_name.capitalize()}(BaseModel):
 
             f.write(
                 f"""
-    {field}: {type_of_field}""")
-
+    {field}: {type_of_field}"""
+            )
 
         # Create Model Input
-        f.write(f"""\n\n
+        f.write(
+            f"""\n\n
 class Create{entity_name.capitalize()}Input(BaseModel):
-    id: int""")
+    id: int"""
+        )
 
         for attribute in items:
             field = attribute.name
@@ -50,12 +55,14 @@ class Create{entity_name.capitalize()}Input(BaseModel):
 
             f.write(
                 f"""
-    {field}: {type_of_field}""")
-
+    {field}: {type_of_field}"""
+            )
 
         # Update Model Input
-        f.write(f"""\n\n
-class Update{entity_name.capitalize()}Input(BaseModel):""")
+        f.write(
+            f"""\n\n
+class Update{entity_name.capitalize()}Input(BaseModel):"""
+        )
 
         for attribute in items:
             field = attribute.name
@@ -66,5 +73,6 @@ class Update{entity_name.capitalize()}Input(BaseModel):""")
 
             f.write(
                 f"""
-    {field}: {type_of_field}""")
+    {field}: {type_of_field}"""
+            )
         f.write("\n")
