@@ -85,7 +85,7 @@ Currently supported technologies are:
 - [ ] MySQL
 - [ ] MongoDB
 
-## Back-end Framework: MySQL
+## Back-end Framework:
 - [x] FastAPI
 - [ ] Flask
 - [ ] Django (maybe)
