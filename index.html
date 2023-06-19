@@ -177,14 +177,25 @@
 
                         <hr class="my-4">
 
-
-                        <div class="row g-3">
+                        <div class="row pb-3 g-3">
                             <div class="col-sm-6">
                                 <label for="entityName" class="form-label">Entity Name</label>
                                 <input type="text" class="form-control" id="entityName" placeholder="" value=""
                                     required>
                                 <div class="invalid-feedback">
                                     Entity Name is required.
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row g-3 attributes">
+                            <div class="col-sm-6">
+                                <label for="entityName" class="form-label">Attribute Name</label>
+                                <input type="text" class="form-control" id="entityName" placeholder="" value=""
+                                    required>
+                                <div class="invalid-feedback">
+                                    Attribute Name is required.
                                 </div>
                             </div>
 
@@ -195,27 +206,15 @@
                                     <option value="">Integer</option>
                                     <option value="">Float</option>
                                     <option value="">Boolean</option>
-                                    <option value="">Decimal</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a valid country.
                                 </div>
                             </div>
-
-                            <div class="col-md-4">
-                                <label for="state" class="form-label">State</label>
-                                <select class="form-select" id="state" required>
-                                    <option value="">Choose...</option>
-                                    <option>California</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please provide a valid state.
-                                </div>
-                            </div>
                         </div>
 
                         <hr class="my-4">
-
+<!--
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="same-address">
                             <label class="form-check-label" for="same-address">Shipping address is the same as my
@@ -225,11 +224,11 @@
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" id="save-info">
                             <label class="form-check-label" for="save-info">Save this information for next time</label>
-                        </div>
+                        </div> -->
 
-                        <hr class="my-4">
+                        <!-- <hr class="my-4"> -->
 
-                        <h4 class="mb-3">Payment</h4>
+                        <!-- <h4 class="mb-3">Payment</h4>
 
                         <div class="my-3">
                             <div class="form-check">
@@ -280,9 +279,9 @@
                                     Security code required
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <hr class="my-4">
+                        <!-- <hr class="my-4"> -->
 
                         <button class="w-100 btn btn-primary btn-lg" type="submit">Build API</button>
                     </form>
