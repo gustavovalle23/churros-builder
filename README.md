@@ -108,3 +108,4 @@ uvicorn src.main:app --reload
 - [ ] Fix seedwork error: missing UniqueEntityId
 - [ ] Fix ModuleNotFoundError: No module named 'src'
 - [ ] Fix duplicate imports
+- [ ] Fix duplicate models structure
