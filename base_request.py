@@ -18,6 +18,7 @@ class EntityItem(BaseModel):
     type: str
     default_value: Optional[Any]
     has_default_value: Optional[bool] = False
+    relationship: Optional[Any] = None
 
 
 class Entity(BaseModel):

@@ -1,7 +1,11 @@
 import os
 from base_request import EntityItem, builtins_types
 
-from code_generator.common.templates import timestamp_model, template_model
+from code_generator.common.templates import (
+    timestamp_model,
+    template_model,
+    template_schema,
+)
 
 
 def convert_to_sqlalchemy_type(type: type) -> str:
@@ -18,15 +22,23 @@ def convert_to_sqlalchemy_type(type: type) -> str:
             return "DateTime()"
 
 
-filename = "src/infra/models.py"
+models_filename = "src/infra/models.py"
 
 
 def generate_model(entity_name: str, items: list[EntityItem]) -> None:
+    if not os.path.exists(models_filename):
+        os.makedirs(os.path.dirname(models_filename), exist_ok=True)
+        open("src/infra/__init__.py", "a").close()
+        with open(models_filename, "a+") as f:
+            f.write(template_model)
+
+    filename = f"src/infra/schemas/{entity_name}.py"
+
     if not os.path.exists(filename):
         os.makedirs(os.path.dirname(filename), exist_ok=True)
-        open("src/infra/__init__.py", "a").close()
+        open("src/infra/schemas/__init__.py", "a").close()
         with open(filename, "a+") as f:
-            f.write("# -*- coding: utf-8 -*-\n")
+            f.write(template_schema)
 
     with open(filename, "a+") as f:
         for attribute in items:
@@ -34,9 +46,12 @@ def generate_model(entity_name: str, items: list[EntityItem]) -> None:
             if type_of_field in builtins_types or type_of_field == "datetime":
                 continue
 
-            f.write(f"from {type_of_field} import {type_of_field}")
-
-        f.write(template_model)
+            if attribute.type == "datetime":
+                f.write(f"""from datetime import datetime\n""")
+            else:
+                f.write(
+                    f"""from src.{attribute.type.lower()}.domain.entities import {attribute.type.capitalize()}\n"""
+                )
 
         f.write(
             f"""\n\nclass {entity_name.capitalize()}Model(Base):

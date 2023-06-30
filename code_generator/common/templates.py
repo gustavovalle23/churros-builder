@@ -1,11 +1,9 @@
 template_model = """
-from datetime import datetime
-from sqlalchemy.sql import func
+# -*- coding: utf-8 -*-
 from dotenv import dotenv_values
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, Boolean, DateTime, Float, Integer
 
 envs = dotenv_values(".env")
 engine = create_engine(envs["DATABASE_URL"])
@@ -20,6 +18,15 @@ def get_db():
         yield db
     finally:
         db.close()
+"""
+
+template_schema = """
+# -*- coding: utf-8 -*-
+from datetime import datetime
+from sqlalchemy.sql import func
+from sqlalchemy import Column, String, Boolean, DateTime, Float, Integer
+
+from src.infra.models import Base
 """
 
 timestamp_model = """
