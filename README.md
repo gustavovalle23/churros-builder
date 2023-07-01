@@ -105,7 +105,9 @@ uvicorn src.main:app --reload
 
 
 ## Todo
-- [ ] Fix seedwork error: missing UniqueEntityId
+- [x] Fix seedwork error: missing UniqueEntityId
+    - Removed. Let user add a id itself
 - [ ] Fix ModuleNotFoundError: No module named 'src'
-- [ ] Fix duplicate imports
-- [ ] Fix duplicate models structure
+- [x] Fix duplicate imports
+- [x] Fix duplicate models structure
+- [ ] sqlalchemy.exc.InvalidRequestError: Table 'products' is already defined for this MetaData instance.  Specify 'extend_existing=True' to redefine options and columns on an existing Table object.
