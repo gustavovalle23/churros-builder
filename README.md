@@ -111,3 +111,4 @@ uvicorn src.main:app --reload
 - [x] Fix duplicate imports
 - [x] Fix duplicate models structure
 - [ ] sqlalchemy.exc.InvalidRequestError: Table 'products' is already defined for this MetaData instance.  Specify 'extend_existing=True' to redefine options and columns on an existing Table object.
+- [ ] sqlalchemy.exc.CompileError: (in table 'products', column 'user'): Can't generate DDL for NullType(); did you forget to specify a type on this Column?
