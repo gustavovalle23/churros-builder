@@ -1,9 +1,6 @@
 import os
-import inspect
-from typing import Dict, List, Any
 
 from base_request import EntityItem
-
 from code_generator.common.templates import imports_repository
 
 
@@ -21,7 +18,7 @@ def generate_repository(entity_name: str, entity_items: list[EntityItem]) -> Non
             f"""
 from src.{entity_name}.application.dtos import Create{model_name}Input, Update{model_name}Input
 from src.{entity_name}.domain.entities import {model_name}
-from src.infra.models import {model_name}Model
+from src.infra.schemas.{entity_name} import {model_name}Model
 """
         )
 

@@ -20,7 +20,14 @@ from pydantic import BaseModel
 
             if type_of_field in builtins_types:
                 continue
-            f.write(f"from {type_of_field} import {type_of_field}\n")
+
+            if type_of_field == "datetime":
+                f.write(f"from datetime import datetime\n")
+                continue
+
+            f.write(
+                f"from src.{type_of_field.lower()}.application.dtos import {type_of_field}\n"
+            )
 
         f.write(
             f"""\n
