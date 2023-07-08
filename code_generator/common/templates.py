@@ -24,7 +24,8 @@ template_schema = """
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from sqlalchemy.sql import func
-from sqlalchemy import Column, String, Boolean, DateTime, Float, Integer
+from sqlalchemy import Column, String, Boolean, DateTime, Float, Integer, ForeignKey
+from sqlalchemy.orm import relationship
 
 from src.infra.models import Base
 """

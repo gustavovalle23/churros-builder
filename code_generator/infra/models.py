@@ -1,6 +1,6 @@
 import os
-from base_request import EntityItem, builtins_types
 
+from base_request import EntityItem, builtins_types
 from code_generator.common.templates import (
     timestamp_model,
     template_model,
@@ -67,9 +67,17 @@ def generate_model(entity_name: str, items: list[EntityItem]) -> None:
             if field in ("id", "created_at", "updated_at"):
                 continue
 
-            f.write(
-                f"""
+            if convert_to_sqlalchemy_type(type_of_field) is None:
+                f.write(
+                    f"""
+    {field}_id = Column(Integer, ForeignKey('{field}s.id'))
+    {field} = relationship('{field.capitalize()}', backref='products')"""
+                )
+
+            else:
+                f.write(
+                    f"""
     {field}: {type_of_field} = Column({convert_to_sqlalchemy_type(type_of_field)})"""
-            )
+                )
 
         f.write(timestamp_model)
