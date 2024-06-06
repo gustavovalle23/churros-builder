@@ -35,10 +35,10 @@ app = FastAPI()
 
 
 @app.post("/")
-async def build_api(entity: Entity):
-    build_api_service(entity)
+async def build_api(entities: list[Entity]):
+    build_api_service(entities)
     return {"message": "api built"}
 
 
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=8000, log_level="info", reload=True)
+    uvicorn.run("server:app", host="0.0.0.0", port=8001, log_level="info", reload=True)
