@@ -8,7 +8,7 @@ from code_generator.infra.models import generate_model
 from code_generator.infra.repositories import generate_repository
 from code_generator.application import generate_routers
 from code_generator.main import generate_main
-from base_request import Entity, EntityItem, convert_entity_type
+from base_request import Entity, EntityItem, convert_entity_type, Relationship
 
 
 def build_api_service(entities: list[Entity]):
@@ -44,7 +44,7 @@ product_items = [
         default_value="no description",
     ),
     EntityItem(name="active", type="bool", has_default_value=True, default_value=False),
-    EntityItem(name="user", type="user"),
+    EntityItem(name="user", type="user", relationship=Relationship.ONE_TO_MANY),
 ]
 
 product = Entity(name="product", items=product_items)

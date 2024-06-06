@@ -13,19 +13,9 @@ from abc import ABC
 from typing import Any
 from dataclasses import Field, dataclass, field, asdict
 
-from src.__seedwork.domain.value_objects import UniqueEntityId
-
 
 @dataclass(frozen=True, slots=True)
 class Entity(ABC):
-
-    unique_entity_id: UniqueEntityId = field(
-        default_factory=lambda: UniqueEntityId()
-    )
-
-    @property
-    def id(self):
-        return str(self.unique_entity_id)
 
     def _set(self, name: str, value: Any):
         object.__setattr__(self, name, value)
@@ -85,7 +75,6 @@ from abc import ABC
 from typing import Generic, List, TypeVar
 
 from src.__seedwork.domain.entities import Entity
-from src.__seedwork.domain.value_objects import UniqueEntityId
 
 ET = TypeVar('ET', bound=Entity)
 
@@ -97,7 +86,7 @@ class RepositoryInterface(Generic[ET], ABC):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def find_by_id(self, entity_id: str | UniqueEntityId) -> ET:
+    def find_by_id(self, entity_id: str) -> ET:
         raise NotImplementedError()
 
     @abc.abstractmethod
@@ -109,7 +98,7 @@ class RepositoryInterface(Generic[ET], ABC):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def delete(self, entity_id: str | UniqueEntityId) -> None:
+    def delete(self, entity_id: str) -> None:
         raise NotImplementedError()
 """
         )
