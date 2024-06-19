@@ -107,11 +107,12 @@ uvicorn src.main:app --reload
 ## Todo
 - [x] Fix seedwork error: missing UniqueEntityId
     - Removed. Let user add a id itself
-- [ ] Fix ModuleNotFoundError: No module named 'src'
+- [x] Fix ModuleNotFoundError: No module named 'src'
 - [x] Fix duplicate imports
 - [x] Fix duplicate models structure
-- [ ] sqlalchemy.exc.InvalidRequestError: Table 'products' is already defined for this MetaData instance.  Specify 'extend_existing=True' to redefine options and columns on an existing Table object.
-- [ ] sqlalchemy.exc.CompileError: (in table 'products', column 'user'): Can't generate DDL for NullType(); did you forget to specify a type on this Column?
+- [x] sqlalchemy.exc.InvalidRequestError: Table 'products' is already defined for this MetaData instance.  Specify 'extend_existing=True' to redefine options and columns on an existing Table object.
+- [x] sqlalchemy.exc.CompileError: (in table 'products', column 'user'): Can't generate DDL for NullType(); did you forget to specify a type on this Column?
+- Other TODOs and errors will be addressed under ISSUES
 
 
 ## Testing
