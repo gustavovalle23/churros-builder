@@ -71,7 +71,7 @@ def generate_model(entity_name: str, items: list[EntityItem]) -> None:
                 f.write(
                     f"""
     {field}_id = Column(Integer, ForeignKey('{field}s.id'))
-    {field} = relationship('{field.capitalize()}', backref='products')"""
+    {field} = relationship('{field.capitalize()}Model', back_populates='products')"""
                 )
 
             else:
