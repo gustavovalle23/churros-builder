@@ -131,3 +131,45 @@ Request body example:
   }
 ]
 ```
+
+
+## Contributing
+
+We welcome contributions from the community! To get started, follow these steps:
+
+1. **Fork the repository**: Click on the 'Fork' button at the top right of this page to create a copy of the repository on your GitHub account.
+
+2. **Clone the repository**: Clone your forked repository to your local machine.
+    ```sh
+    git clone git@github.com:churros-py/churros-builder.git
+    cd churros-builder
+    ```
+
+3. **Create a branch**: Create a new branch for your feature or bugfix.
+    ```sh
+    git checkout -b feature/your-feature-name
+    ```
+
+4. **Make your changes**: Make the necessary changes in your local repository.
+
+5. **Add and commit your changes**: Stage your changes and commit them with a meaningful message.
+    ```sh
+    git add .
+    git commit -m "Add feature/fix issue [short description of your changes]"
+    ```
+
+6. **Push your changes**: Push your changes to your forked repository.
+    ```sh
+    git push origin feature/your-feature-name
+    ```
+
+7. **Open a pull request**: Go to the original repository on GitHub and open a pull request from your forked repository. Make sure to describe your changes in detail.
+
+8. **Review process**: Your pull request will be reviewed by the maintainers. Please address any feedback and make necessary adjustments.
+
+### Guidelines
+
+- Ensure your code follows the project's coding style.
+- Write tests for any new features or bug fixes.
+- Keep your commits atomic and well-documented.
+- Update the documentation if necessary.
