@@ -19,22 +19,25 @@ def build_api_service(entities: list[Entity]):
         for item in entity.items:
             item.type = convert_entity_type(item.type)
 
-        generate_entity(entity.name, entity.items)
+        filtered_items = [item for item in entity.items if item.relationship != Relationship.ONE_TO_MANY]
+
+        generate_entity(entity.name, filtered_items)
         generate_domain_repository(entity.name)
-        generate_repository(entity.name, entity.items)
+        generate_repository(entity.name, filtered_items)
         generate_model(entity.name, entity.items)
-        generate_routers(entity.name, entity.items)
+        generate_routers(entity.name, filtered_items)
 
     generate_main([entity.name for entity in entities])
 
 
-user_items = [EntityItem(name="name", type="str")]
-user = Entity(name="user", items=user_items)
-
+user_items = [
+    EntityItem(name="name", type="str"),
+    EntityItem(name="products", type="product", relationship=Relationship.ONE_TO_MANY),
+]
 
 product_items = [
     EntityItem(name="name", type="str"),
-    EntityItem(name="valid_date", type="datetime"),
+    EntityItem(name="expiration_date", type="datetime"),
     EntityItem(name="quantity", type="int", has_default_value=True, default_value=10),
     EntityItem(name="weight", type="float", has_default_value=True, default_value=0.0),
     EntityItem(
@@ -44,9 +47,10 @@ product_items = [
         default_value="no description",
     ),
     EntityItem(name="active", type="bool", has_default_value=True, default_value=False),
-    EntityItem(name="user", type="user", relationship=Relationship.ONE_TO_MANY),
+    EntityItem(name="user", type="user", relationship=Relationship.MANY_TO_ONE),
 ]
 
+user = Entity(name="user", items=user_items)
 product = Entity(name="product", items=product_items)
 
 build_api_service([product, user])
