@@ -8,7 +8,7 @@ from code_generator.common.templates import (
 )
 
 
-def convert_to_sqlalchemy_type(type: type) -> str:
+def convert_to_sqlalchemy_type(type: str) -> str:
     match type:
         case "str":
             return "String(255)"
@@ -67,17 +67,24 @@ def generate_model(entity_name: str, items: list[EntityItem]) -> None:
             if field in ("id", "created_at", "updated_at"):
                 continue
 
-            if convert_to_sqlalchemy_type(type_of_field) is None and attribute.relationship == Relationship.MANY_TO_ONE:
-                f.write(
-                    f"""
+            if convert_to_sqlalchemy_type(type_of_field) is None:
+                if attribute.relationship == Relationship.MANY_TO_ONE:
+                    f.write(
+                        f"""
     {field}_id = Column(Integer, ForeignKey('{field}s.id'))
     {field} = relationship('{field.capitalize()}Model', back_populates='{entity_name}s')"""
-                )
-            elif convert_to_sqlalchemy_type(type_of_field) is None and attribute.relationship == Relationship.ONE_TO_MANY:
-                f.write(
-                    f"""
+                    )
+                elif attribute.relationship == Relationship.ONE_TO_MANY:
+                    f.write(
+                        f"""
     {field} = relationship('{type_of_field.capitalize()}Model', back_populates='{entity_name}')""" 
-                )
+                    )
+                elif attribute.relationship == Relationship.ONE_TO_ONE:
+                    f.write(
+                        f"""
+    {field}_id = Column(Integer, ForeignKey('{field}s.id'), unique=True)
+    {field} = relationship('{field.capitalize()}Model', back_populates='{entity_name}')"""
+                    )
             else:
                 f.write(
                     f"""
