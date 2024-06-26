@@ -42,9 +42,10 @@ timestamp_model = """
 
 
 imports_entity = """# -*- coding: utf-8 -*-
+from __future__ import annotations
 from typing import Optional
 from datetime import datetime, timezone
-from dataclasses import dataclass\n"""
+from dataclasses import dataclass, field\n"""
 
 
 imports_repository = """

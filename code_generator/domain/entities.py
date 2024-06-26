@@ -49,7 +49,14 @@ class {entity_name.capitalize()}(Entity):
             if field == "id":
                 continue
 
-            f.write(
+            
+            if required_attribute.relationship == Relationship.ONE_TO_ONE_CHILD:
+                f.write(
+                f"""
+    {field}: '{type_of_field}' = field(init=False) # type: ignore"""
+            )
+            else:
+                f.write(
                 f"""
     {field}: {type_of_field}"""
             )
