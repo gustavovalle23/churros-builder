@@ -32,7 +32,7 @@ def build_api_service(entities: list[Entity]):
 user_items = [
     EntityItem(name="name", type="str"),
     EntityItem(name="products", type="product", relationship=Relationship.ONE_TO_MANY),
-    EntityItem(name="address", type="address", relationship=Relationship.ONE_TO_ONE),
+    EntityItem(name="address", type="address", relationship=Relationship.ONE_TO_ONE_PARENT),
 ]
 
 product_items = [
@@ -52,7 +52,7 @@ product_items = [
 
 address_items = [
     EntityItem(name="street", type="str", has_default_value=False),
-    EntityItem(name="user", type="user", relationship=Relationship.ONE_TO_ONE),
+    EntityItem(name="user", type="user", relationship=Relationship.ONE_TO_ONE_CHILD),
 ]
 
 address = Entity(name='address', items=address_items)
